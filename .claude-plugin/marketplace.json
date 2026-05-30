@@ -1,0 +1,13 @@
+{
+  "name": "claude-stock-fund-skill",
+  "owner": {
+    "name": "hsbEdin"
+  },
+  "plugins": [
+    {
+      "name": "claude-stock-fund-skill",
+      "source": "./",
+      "description": "A股股票多空辩论 + 基金多空辩论 — 双数据源(Tushare+BaoStock)，7智能体对抗辩论，自动化投资分析工作流"
+    }
+  ]
+}
