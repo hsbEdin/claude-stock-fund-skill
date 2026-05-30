@@ -1,0 +1,29 @@
+{
+  "name": "claude-stock-fund-skill",
+  "version": "1.0.0",
+  "description": "A股股票多空辩论 + 基金多空辩论 — 双数据源(Tushare+BaoStock)，7智能体对抗辩论，自动化投资分析工作流",
+  "author": {
+    "name": "hsbEdin",
+    "url": "https://github.com/hsbEdin"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/hsbEdin/claude-stock-fund-skill",
+  "keywords": ["A股", "基金", "股票分析", "多智能体", "辩论", "投资"],
+  "category": "finance",
+  "commands": [
+    {
+      "name": "a-stock-debate",
+      "description": "A股多空辩论 — 双数据源(Tushare+BaoStock)，技术面/资金面/基本面/消息面四维数据，7智能体对抗辩论，输出买卖决策",
+      "file": "commands/a-stock-debate.md"
+    },
+    {
+      "name": "fund-debate",
+      "description": "基金多空辩论 — 净值/经理/持仓/基准四维数据，7智能体对抗，输出申赎决策",
+      "file": "commands/fund-debate.md"
+    }
+  ],
+  "dependencies": {
+    "python": ["baostock", "pandas"],
+    "mcp": ["finance-data-server"]
+  }
+}
