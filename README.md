@@ -11,7 +11,7 @@ A股股票 + 基金多智能体辩论分析工具。让 Claude Code 化身你的
 claude plugin marketplace add hsbEdin/claude-stock-fund-skill
 
 # 安装插件
-claude plugin install claude-stock-fund-skill
+claude plugin install claude-stock-fund-skill@claude-stock-fund-skill
 ```
 
 ### 2. 安装 Python 依赖
