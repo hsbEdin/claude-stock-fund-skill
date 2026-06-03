@@ -87,10 +87,19 @@ python3 /Users/bytedance/.claude/scripts/baostock_fetch.py sh.600xxx 三个月�
 **结论：** [买入/增持/持有/减持/卖出]
 **理由：** [2-3句，引用最关键数据点]
 
+**行业适配模块：** [根据公司主业选择，最多3条最关键的问自己的问题]
+- 化工/周期：MDI/产品价差趋势？产能利用率？下游开工率？
+- 半导体/封测：订单可见度几个季度？客户集中度（苹果占比）？SiP/先进封装渗透率？
+- 通信设备：5G/6G 资本开支周期？运营商集采份额？海外收入占比？
+- 电力/能源：电价政策方向？煤价/天然气成本？新能源补贴变动？
+- 消费电子：大客户新品周期？备货节奏？竞争格局？
+
 **关键指标：** ROE=XX% | PE=XXx | 净利润增速=XX% | 毛利率=XX%
 
 **价位：** 入场¥XX-XX | 止损¥XX | 阻力¥XX
 **仓位：** [X%仓位，分X批]
+
+**⚡ Grill-Me 压力测试：** 如果你打算按上述结论操作，先运行 `/grill-me "我要[买入/卖出]XX股票，理由是..."` ，让 AI 从五个角度挑刺：①逻辑漏洞 ②忽略的反面证据 ③仓位是否合理 ④退出条件是否清晰 ⑤如果判断错了，最大损失是多少。
 
 > ⚠️ AI辩论，不构成投资建议。
 ```
@@ -102,3 +111,4 @@ python3 /Users/bytedance/.claude/scripts/baostock_fetch.py sh.600xxx 三个月�
 - Phase 2 摘要必须自己从原始数据中提取关键数字，不能省略
 - Agent 输入控制在800字以内，用摘要替代原始数据
 - 接口失败标注后继续，不中断流程
+- **AI 建议跟踪：** 辩论结束后，向 `~/.claude/ai_track_record.json` 追加一条记录：`{"date": "TODAY", "type": "stock", "ticker": "XXX.XX", "name": "股票名", "recommendation": "BUY/SELL/HOLD", "price": 当前价, "source_command": "/a-stock-debate", "verdict": "一句结论"}`。status 为 "pending"，待后续验证更新。

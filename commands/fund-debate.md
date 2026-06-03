@@ -37,6 +37,19 @@ argument-hint: <6位基金代码>
 
 ---
 
+## Phase 2.5 — 持仓穿透 & 风格漂移检测
+
+如果 fund_data(ts_code="XXX.OF", data_type="portfolio") 返回了持仓数据：
+
+1. **当前持仓 vs 历史持仓对比**：列出 top 5 重仓股的变化。如果过去 2 期 top 5 中换了 3 只以上 → 🟡「持仓换手率高，策略漂移风险」
+2. **费率影响计算**：年费率 × 持有金额 = 年持有成本。如果费后跑不赢 ETF，提示换指数基金
+3. **持仓 vs 基准重合度**：与基金名称暗示的投资方向对比。例如：
+   - 「永赢科技智选」top 5 应该 > 60% 科技
+   - 如果 top 5 里出现银行/白酒 → 🔴「风格漂移警报」
+4. **规模预警**：如果规模 < 5000 万 → 清盘风险。规模 > 100 亿 → 灵活性下降
+
+---
+
 ## Phase 3 — 多空辩论（仅传摘要+关键数据，≤600字/Agent）
 
 依次运行3个 Agent（subagent_type="general-purpose"）：
@@ -96,4 +109,5 @@ argument-hint: <6位基金代码>
 - Phase 1 所有调用一次性并行发出
 - Tushare频率超限时用网络搜索补充
 - Agent输入≤600字，只用摘要不传原始数据
+- **AI 建议跟踪：** 辩论结束后，向 `~/.claude/ai_track_record.json` 追加一条记录，type="fund"，recommendation 为申/赎/持，status="pending"。
 - 接口失败标注后继续

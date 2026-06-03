@@ -1,0 +1,12 @@
+{
+  "version": "1.0",
+  "updated": "YYYY-MM-DD",
+  "stats": {
+    "total_recommendations": 0,
+    "correct": 0,
+    "wrong": 0,
+    "pending": 0,
+    "accuracy_pct": 0
+  },
+  "records": []
+}

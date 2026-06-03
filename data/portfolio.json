@@ -1,0 +1,11 @@
+{
+  "version": "1.0",
+  "updated": "YYYY-MM-DD",
+  "cash": 0,
+  "stocks": [
+    { "code": "600309.SH", "name": "示例-万华化学", "shares": 100, "cost": 75.00, "sector": "化工", "type": "周期价值", "platform": "券商" }
+  ],
+  "funds": [
+    { "code": "016873.OF", "name": "示例-广发远见智选混合A", "amount": 50000, "cost": 45000, "type": "偏股混合", "platform": "理财通" }
+  ]
+}
