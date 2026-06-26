@@ -1,5 +1,73 @@
 {
   "version": "1.0",
-  "updated": "YYYY-MM-DD",
-  "theses": []
+  "updated": "2026-06-01T17:00:00+08:00",
+  "theses": [
+    {
+      "id": "THESIS-001",
+      "ticker": "600309.SH",
+      "name": "万华化学",
+      "created": "2026-05-29",
+      "status": "active",
+      "entry": {
+        "date": "2026-06-01",
+        "price": 75.18,
+        "shares": 300,
+        "amount": 22553
+      },
+      "thesis": "全球MDI龙头，PE 15.9x远低于历史中枢25-30x，RSI 10极端超卖数年一遇，5/29资金首现净流入空头力竭，高管增持(5/30公告)确认底部，6-12个月内回升至81-91",
+      "falsification": [
+        "Q2 2026营收同比跌幅 > 5%（当前Q1为-2.19%）",
+        "MDI聚合价格跌破12000元/吨",
+        "高管反手减持（与5/30增持行为相反）"
+      ],
+      "target": { "price": 81.00, "timeframe_months": 9 },
+      "stop_loss": 68.00,
+      "probability": {
+        "optimistic":  { "pct": 30, "price": 91, "return_pct": 20.2 },
+        "base":        { "pct": 50, "price": 81, "return_pct": 7.0 },
+        "pessimistic": { "pct": 20, "price": 64, "return_pct": -15.5 }
+      },
+      "ev_pct": 7.46,
+      "close": null,
+      "reviews": [
+        {
+          "date": "2026-06-24",
+          "score_pct": 6.5,
+          "price": 74.70,
+          "pnl_pct": -0.6,
+          "falsification_triggered": [],
+          "note": "6/10-11短暂跌破68止损线(最低67.15)，随后12个交易日反弹+11.2%回到74.7。教训：①底部是一个区间不是点②周期股被风格抽血时可跌得比预期更深③论文框架有效——证伪条件(三条全未触发)让持有者扛过了最恐慌时刻④但止损线应设更低(66而非68)或增加容忍度(连续3日收盘低于68才执行)"
+        }
+      ]
+    },
+    {
+      "id": "THESIS-002",
+      "ticker": "000063.SZ",
+      "name": "中兴通讯",
+      "created": "2026-06-05",
+      "status": "active",
+      "entry": {
+        "date": "2026-05-14",
+        "price": 38.29,
+        "shares": 2300,
+        "amount": 88060
+      },
+      "thesis": "交换芯片(中兴微)估值锚1500亿+AI服务器+6G通信三大增长极，公司回购6.70亿+每10股派4.11元+港股联动，市值从1550亿走向3000亿，半年内目标60元",
+      "falsification": [
+        "中兴微电子51.2T交换芯片未能在2026年底前流片成功或公布明确量产时间表",
+        "连续两个季度(Q2+Q3)营收增速<5%或AI/服务器业务收入占比不升反降",
+        "公司终止回购或董事/高管出现净减持"
+      ],
+      "target": { "price": 60.00, "timeframe_months": 6 },
+      "stop_loss": 34.50,
+      "probability": {
+        "optimistic":  { "pct": 30, "price": 60, "return_pct": 48.9 },
+        "base":        { "pct": 45, "price": 48, "return_pct": 19.1 },
+        "pessimistic": { "pct": 25, "price": 34.5, "return_pct": -14.4 }
+      },
+      "ev_pct": 19.7,
+      "close": null,
+      "reviews": []
+    }
+  ]
 }

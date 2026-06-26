@@ -7,39 +7,56 @@ description: 投资组合仪表盘 — 实时行情、浮动盈亏、行业集�
 
 ---
 
-## Phase 1 — 并行拉取实时数据
+## Phase 1 — 并行拉取实时数据（Tushare优先，AKShare备选）
+
+### ⚠️ 双重保险规则
+
+所有数据拉取遵循：**先调 MCP，若返回 "频率超限" / "This operation was aborted" / 超时 / 空数据 → 立即切 AKShare 脚本**。
+
+AKShare 命令格式：
+```bash
+python3 /Users/bytedance/.claude/scripts/akshare_fetch.py stock <code> <start> <end>
+python3 /Users/bytedance/.claude/scripts/akshare_fetch.py fund <code> <start>
+python3 /Users/bytedance/.claude/scripts/akshare_fetch.py index <code> <start> <end>
+python3 /Users/bytedance/.claude/scripts/akshare_fetch.py spot <code>
+```
 
 ### 股票行情（全部拉取）
 
-对每只持仓股票，无条件拉取最新行情：
-
+优先：
 ```
 stock_data(code="XXX.XX", market_type="cn", start_date=5日前, end_date=TODAY, indicators="ma(5) ma(20) ma(60)")
 ```
+备选：
+```bash
+python3 /Users/bytedance/.claude/scripts/akshare_fetch.py stock XXX.XX 5日前 TODAY
+```
+从 JSON 中取 close/MA5/MA20/MA60/RSI/MACD 字段。
 
 ### 基准指数（沪深300）
 
-拉取基准指数作为对比：
-
+优先：
 ```
 index_data(code="000300.SH", start_date=30日前, end_date=TODAY)
 ```
-
-计算：近1月/近3月基准涨跌幅，用于对比组合表现。
+备选：
+```bash
+python3 /Users/bytedance/.claude/scripts/akshare_fetch.py index 000300 30日前 TODAY
+```
 
 ### 基金净值（仅拉取 amount ≥ 50000 且有 code 的）
 
-遍历 funds 数组，筛选条件：`code 非空 AND code 以 .OF 结尾 AND amount ≥ 50000`。
-
-对符合条件的基金拉取净值：
-
+优先：
 ```
 fund_data(ts_code="XXX.OF", data_type="nav", start_date=7日前, end_date=TODAY)
 ```
+备选：
+```bash
+python3 /Users/bytedance/.claude/scripts/akshare_fetch.py fund XXXXXX 7日前
+```
+取 JSON 中最新一条的 nav 字段。
 
-取最新一条记录的单位净值。
-
-**不拉净值的基金**（code 为空 或 amount < 50000）：直接用 portfolio.json 中的 amount 作为估算市值，盈亏 = amount - cost。
+**不拉净值的基金**（code 为空 或 amount < 50000）：直接用 portfolio.json 中的 amount 作为估算市值。
 
 ---
 

@@ -8,15 +8,25 @@ argument-hint: <6位股票代码>
 
 ---
 
-## Phase 1 — 并行拉取（Tushare + BaoStock 同时发出）
+## Phase 1 — 并行拉取（Tushare+BaoStock优先，AKShare备选）
 
-### Tushare MCP（技术/资金/新闻）
+### ⚠️ 双重保险：MCP 失败 → 立即切 AKShare
+
+```bash
+python3 /Users/bytedance/.claude/scripts/akshare_fetch.py stock <code> <start> <end>
+python3 /Users/bytedance/.claude/scripts/akshare_fetch.py moneyflow <code> <start>
+python3 /Users/bytedance/.claude/scripts/akshare_fetch.py fund <code> <start>
+```
+
+### Tushare MCP（技术/资金/新闻，优先）
 1. stock_data(code="XXX.XX", market_type="cn", start_date=3月前, end_date=TODAY, indicators="macd(12,26,9) rsi(14) kdj(9,3,3) boll(20,2) ma(5) ma(10) ma(20) ma(60)")
 2. money_flow(ts_code="XXX.XX", start_date=3月前, end_date=TODAY)
 3. margin_trade(data_type="margin_detail", ts_code="XXX.XX", start_date=1月前, end_date=TODAY)
 4. finance_news(query="代码+名称")
 
-### BaoStock Python（基本面/估值/指数，免费无限制）
+**以上4项，任何一项失败/超限/超时 → 立即用 AKShare 对应弥补。**
+
+### BaoStock Python（基本面/估值，免费无限制）
 ```bash
 python3 /Users/bytedance/.claude/scripts/baostock_fetch.py sh.600xxx 三个月前 TODAY 2>/dev/null | sed '1d'
 ```
@@ -93,6 +103,18 @@ python3 /Users/bytedance/.claude/scripts/baostock_fetch.py sh.600xxx 三个月�
 - 通信设备：5G/6G 资本开支周期？运营商集采份额？海外收入占比？
 - 电力/能源：电价政策方向？煤价/天然气成本？新能源补贴变动？
 - 消费电子：大客户新品周期？备货节奏？竞争格局？
+
+**🏭 产业链位置分析：**
+```
+全球 AI 供应链位置：
+[GPU → 交换机 → 光模块/CPO → 原材料 → 设备]
+
+该股票在哪一层？上游/中游/下游？
+├── 对大客户的议价能力：强/中/弱？
+├── 替代风险：能否被绕过？国产替代进度？
+├── 映射敏感度：美股对应龙头涨跌对它的传导强度？
+└── 结论：该环节在产业链中是「紫苏叶」（不可替代）还是「金枪鱼」（已被定价）？
+```
 
 **关键指标：** ROE=XX% | PE=XXx | 净利润增速=XX% | 毛利率=XX%
 
