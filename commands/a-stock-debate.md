@@ -8,23 +8,24 @@ argument-hint: <6位股票代码>
 
 ---
 
-## Phase 1 — 并行拉取（Tushare+BaoStock优先，AKShare备选）
+## Phase 1 — 并行拉取（新浪API实时行情 + BaoStock基本面 + Tushare资金/新闻）
 
-### ⚠️ 双重保险：MCP 失败 → 立即切 AKShare
+### ⭐ 实时行情（新浪API — 必须优先）
 
 ```bash
-python3 /Users/bytedance/.claude/scripts/akshare_fetch.py stock <code> <start> <end>
-python3 /Users/bytedance/.claude/scripts/akshare_fetch.py moneyflow <code> <start>
-python3 /Users/bytedance/.claude/scripts/akshare_fetch.py fund <code> <start>
+curl -s -H 'Referer: https://finance.sina.com.cn' \
+     -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' \
+     'https://hq.sinajs.cn/list=<sz|sh><CODE>' | iconv -f gbk -t utf-8
 ```
 
-### Tushare MCP（技术/资金/新闻，优先）
-1. stock_data(code="XXX.XX", market_type="cn", start_date=3月前, end_date=TODAY, indicators="macd(12,26,9) rsi(14) kdj(9,3,3) boll(20,2) ma(5) ma(10) ma(20) ma(60)")
-2. money_flow(ts_code="XXX.XX", start_date=3月前, end_date=TODAY)
-3. margin_trade(data_type="margin_detail", ts_code="XXX.XX", start_date=1月前, end_date=TODAY)
-4. finance_news(query="代码+名称")
+⚠️ **禁止使用 Tushare MCP stock_data**（已验证返回2025年旧数据）。现价只信新浪API。
 
-**以上4项，任何一项失败/超限/超时 → 立即用 AKShare 对应弥补。**
+### Tushare MCP（资金/新闻，非行情）
+1. money_flow(ts_code="XXX.XX", start_date=3月前, end_date=TODAY)
+2. margin_trade(data_type="margin_detail", ts_code="XXX.XX", start_date=1月前, end_date=TODAY)
+3. finance_news(query="代码+名称")
+
+**以上任何MCP调用失败 → 跳过，不影响主流程。**
 
 ### BaoStock Python（基本面/估值，免费无限制）
 ```bash

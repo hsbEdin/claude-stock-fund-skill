@@ -1,3 +1,3 @@
 - [Stock Analysis Checklist](feedback_stock_analysis.md) — Default to full four-dimension combo analysis when user asks to analyze any stock/fund
 - [Portfolio Thesis 2026-05-29](reference_20260529_portfolio_thesis.md) — 万华化学(600309)增持+中欧新蓝筹(166002)申购，含关键价位与操作方案
-- [Data Source Config](feedback_data_source_config.md) — /a-stock-debate 采用 Tushare(技术/资金)+BaoStock(基本面/估值/指数)双数据源，解决频率限制问题
+- [Data Source Config](feedback_data_source_config.md) — ⭐ 新浪API是唯一实时行情来源，Tushare/东方财富/雪球均不可靠（2026-08-05验证）

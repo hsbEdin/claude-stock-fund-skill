@@ -7,52 +7,42 @@ description: 投资组合仪表盘 — 实时行情、浮动盈亏、行业集�
 
 ---
 
-## Phase 1 — 并行拉取实时数据（Tushare优先，AKShare备选）
+## Phase 1 — 并行拉取实时数据
 
-### ⚠️ 双重保险规则
+### ⭐ 股票实时行情（新浪API — 唯一准确来源）
 
-所有数据拉取遵循：**先调 MCP，若返回 "频率超限" / "This operation was aborted" / 超时 / 空数据 → 立即切 AKShare 脚本**。
-
-AKShare 命令格式：
+**Bash 直接拉（首选，无依赖）：**
 ```bash
-python3 /Users/bytedance/.claude/scripts/akshare_fetch.py stock <code> <start> <end>
-python3 /Users/bytedance/.claude/scripts/akshare_fetch.py fund <code> <start>
-python3 /Users/bytedance/.claude/scripts/akshare_fetch.py index <code> <start> <end>
-python3 /Users/bytedance/.claude/scripts/akshare_fetch.py spot <code>
+curl -s -H 'Referer: https://finance.sina.com.cn' \
+     -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36' \
+     'https://hq.sinajs.cn/list=sz000063,sz002475,sh601138,sh600522,sh601231,sz002129,...' \
+     | iconv -f gbk -t utf-8
 ```
 
-### 股票行情（全部拉取）
+解析：`名称,今开,昨收,现价,最高,最低,...,日期,时间`。提取现价(parts[3])、昨收(parts[2])、成交额(parts[9])、时间(parts[30]+parts[31])。
 
-优先：
-```
-stock_data(code="XXX.XX", market_type="cn", start_date=5日前, end_date=TODAY, indicators="ma(5) ma(20) ma(60)")
-```
-备选：
+**Python 脚本（备选）：**
 ```bash
-python3 /Users/bytedance/.claude/scripts/akshare_fetch.py stock XXX.XX 5日前 TODAY
+python3 scripts/akshare_fetch.py spot 000063
 ```
-从 JSON 中取 close/MA5/MA20/MA60/RSI/MACD 字段。
 
-### 基准指数（沪深300）
+### 基准指数
 
-优先：
-```
-index_data(code="000300.SH", start_date=30日前, end_date=TODAY)
-```
-备选：
 ```bash
-python3 /Users/bytedance/.claude/scripts/akshare_fetch.py index 000300 30日前 TODAY
+curl -s -H 'Referer: https://finance.sina.com.cn' \
+     'https://hq.sinajs.cn/list=s_sh000001,s_sh000688,s_sz399006' | iconv -f gbk -t utf-8
 ```
+
+⚠️ 指数数据可能不带时间戳，以个股数据为准。
 
 ### 基金净值（仅拉取 amount ≥ 50000 且有 code 的）
 
-优先：
 ```
 fund_data(ts_code="XXX.OF", data_type="nav", start_date=7日前, end_date=TODAY)
 ```
-备选：
+如 MCP 失败：
 ```bash
-python3 /Users/bytedance/.claude/scripts/akshare_fetch.py fund XXXXXX 7日前
+python3 scripts/akshare_fetch.py fund XXXXXX 7日前
 ```
 取 JSON 中最新一条的 nav 字段。
 

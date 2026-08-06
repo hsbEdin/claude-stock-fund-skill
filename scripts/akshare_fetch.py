@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
-"""备选数据源 — Tushare MCP 超限/宕机时自动切换。用新浪/腾讯 API，不过墙。
+"""⭐ 新浪API数据获取（主力）+ 腾讯/天天基金备选。
+
+新浪API是唯一经过验证的A股实时行情来源（2026-08-05验证）。
+Tushare MCP stock_data 已弃用（返回2025年旧数据）。
+东方财富 push2 API 已弃用（编码混乱）。
 
 用法:
-  python3 akshare_fetch.py stock 600309 20260501 20260604   # 日线+指标
-  python3 akshare_fetch.py fund 016873 20260501             # 基金净值(天天基金)
-  python3 akshare_fetch.py index 000300 20260501 20260604    # 指数(腾讯)
-  python3 akshare_fetch.py spot 600309                       # 实时快照(新浪)
+  python3 akshare_fetch.py stock 600309 20260501 20260604   # 日线+指标（腾讯备选）
+  python3 akshare_fetch.py fund 016873 20260501             # 基金净值（天天基金）
+  python3 akshare_fetch.py index 000300 20260501 20260604   # 指数（腾讯备选）
+  python3 akshare_fetch.py spot 600309                      # ⭐ 实时快照（新浪API）
 """
 import sys, json, time, re
 import requests

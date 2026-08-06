@@ -19,7 +19,7 @@ argument-hint: <open|review|close|stats> [股票代码或thesis ID]
 调用 current_timestamp(format="date") 获取 TODAY。
 
 并行拉取：
-1. stock_data(code="XXX.XX", market_type="cn", start_date=3月前, end_date=TODAY, indicators="macd(12,26,9) rsi(14) kdj(9,3,3) boll(20,2) ma(5) ma(10) ma(20) ma(60)")
+1. ⭐ **新浪API**（实时行情）：`curl -s -H 'Referer: https://finance.sina.com.cn' 'https://hq.sinajs.cn/list=XXxxxxxx' | iconv -f gbk -t utf-8` — **唯一准确的现价来源**
 2. money_flow(ts_code="XXX.XX", start_date=1月前, end_date=TODAY)
 3. company_performance(ts_code="XXX.XX", data_type="indicators", start_date=20250101, end_date=TODAY)
 4. finance_news(query="股票名称")
